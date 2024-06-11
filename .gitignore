@@ -1,0 +1,3 @@
+.zig-cache/
+example/.zig-cache
+example/zig-out

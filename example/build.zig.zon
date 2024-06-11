@@ -1,0 +1,18 @@
+.{
+    .name = "example",
+    .version = "0.0.0",
+
+    .dependencies = .{
+        .shvz = .{
+            .path = "../",
+        },
+        .logz = .{
+            .url = "git+https://github.com/karlseguin/log.zig.git#adc6910d2e8f50e0ec5a4792d6a7136f46778061",
+            .hash = "1220a5687ab17f0691a64d19dfd7be1299df64d2e030bf7d56a7e0be041fbb289845",
+        },
+    },
+
+    .paths = .{
+        "",
+    },
+}
