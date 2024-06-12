@@ -127,16 +127,16 @@ fn warn(message: []u8) void {}
 
 ## Documentation
 
-You can find a set of examples (C) and a readme in the [ScriptHookV SDK](http://www.dev-c.com/gtav/scripthookv/) archive and help on [gtaforums](https://gtaforums.com).
-
-The example project in here only showcases the setup for this respective zig library.
+- You can find a set of examples (C) and a readme in the [ScriptHookV SDK](http://www.dev-c.com/gtav/scripthookv/) archive and help on [gtaforums](https://gtaforums.com).
+- Some natives are documented by the [alloc8or](https://alloc8or.re/gta5/nativedb/).
+- The example project in here only showcases the setup for this respective zig library.
 
 ## Thanks
 
 - [Alexander Blade - Script Hook V](http://www.dev-c.com).
 - Discord Zig - For guiding me with some things.
 - [c2z](https://github.com/lassade/c2z/) - Helped in the translation of over 6000 native methods from ScriptHookV sdk.
-
+- [alloc8or](https://github.com/alloc8or/gta5-nativedb-data) - Most of the native methods are pulled from his [gta5-nativedb-data repo](https://github.com/alloc8or/gta5-nativedb-data/blob/master/natives.json)
 ## LICENSE
 
 - MIT
