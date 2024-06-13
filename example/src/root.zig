@@ -1,11 +1,28 @@
 const std = @import("std");
-
 const shvz = @import("shvz");
-
 const logz = @import("logz");
 
+/// Triggers when the asi is attached
+/// needs to be marked as public.
+pub fn onLoad(hInstance: std.os.windows.HINSTANCE) void {
+    initLoggerThread();
+    shvz.Logger.setLogger(.{
+        .logDebug = &debug,
+        .logError = &err,
+        .logInfo = &info,
+        .logWarn = &warn,
+    });
+    shvz.main.scriptRegister(hInstance, &mainScript);
+}
+
+/// Same as onLoad but triggers when the asi is detached
+pub fn onUnload(hInstance: std.os.windows.HINSTANCE) void {
+    _ = hInstance;
+    shvz.main.scriptUnregister(&mainScript);
+}
+
 // Script entry point
-pub export fn scriptMain() void {
+pub fn mainScript() callconv(.C) void {
     var c_string = "Hello World".*;
     var c_text_entry = "STRING".*;
 
@@ -27,49 +44,6 @@ pub export fn scriptMain() void {
         // Wait 0 seconds.
         shvz.main.WAIT(0);
     }
-}
-
-// Required for the main entry point;
-pub const DLL_PROCESS_ATTACH: std.os.windows.DWORD = 1;
-pub const DLL_THREAD_ATTACH: std.os.windows.DWORD = 2;
-pub const DLL_THREAD_DETACH: std.os.windows.DWORD = 3;
-pub const DLL_PROCESS_DETACH: std.os.windows.DWORD = 4;
-
-/// Main entry point. Will be loaded by ScriptHookV.dll
-pub export fn DllMain(hInstance: std.os.windows.HINSTANCE, reason: std.os.windows.DWORD, lpReserved: std.os.windows.LPVOID) std.os.windows.BOOL {
-    _ = lpReserved;
-
-    switch (reason) {
-        DLL_PROCESS_ATTACH => {
-            // Init logger
-            initLoggerThread();
-
-            // Setup loggers
-            shvz.Logger.setLogger(.{
-                .logDebug = &debug,
-                .logError = &err,
-                .logInfo = &info,
-                .logWarn = &warn,
-            });
-
-            // shvz.init(zhvs.Config) REQUIRED
-            // It handles opening the ScriptHookV.dll library and read symbols from it
-            shvz.init() catch |e| { shvz.Logger.err(e); };
-            // register the script's entry point
-            shvz.main.scriptRegister(hInstance, scriptMain);
-        },
-        DLL_PROCESS_DETACH => {
-            // Unregister the script's entry point
-            // Call this before shvz.deInit() to ensure taht we didn't unloaded ScriptHookV.dll library.
-            shvz.main.scriptUnregister(scriptMain);
-            // call shvz.deInit() REQUIRED
-            // Will close the loaded ScriptHookV.dll library freeing memory
-            shvz.deinit();
-        },
-        else => {},
-    }
-
-    return std.os.windows.TRUE;
 }
 
 // Logger implementation using https://github.com/karlseguin/log.zig

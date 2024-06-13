@@ -80,7 +80,7 @@ pub fn scriptWait(ms: std.os.windows.DWORD) void {
 }
 
 pub fn scriptRegister(instance: std.os.windows.HINSTANCE, LP_SCRIPT_MAIN: *const fn () callconv(.C) void) void {
-    const sym = utils.findSymbol(&root.ScriptHookVDLL.?.dynLib, *const fn (std.os.windows.HINSTANCE, *const fn () callconv(.C) void) callconv(.C) void, "?scriptRegister@@YAXPEAUHINSTANCE__@@P6AXXZ@Z");
+    const sym = utils.findSymbol(*const fn (std.os.windows.HINSTANCE, *const fn () callconv(.C) void) callconv(.C) void, "?scriptRegister@@YAXPEAUHINSTANCE__@@P6AXXZ@Z");
     sym.?(instance, LP_SCRIPT_MAIN);
 }
 
@@ -98,7 +98,6 @@ pub fn scriptUnregisterInstance(instance: std.os.windows.HINSTANCE) void {
     const sym = utils.findSymbol(&root.ScriptHookVDLL.?.dynLib, *const fn (std.os.windows.HINSTANCE) callconv(.C) void, "?scriptUnregister@@YAXPEAUHINSTANCE__@@@Z");
     sym.?(instance);
 }
-
 
 fn nativeCall() u64 {
     const call = utils.findSymbol(&root.ScriptHookVDLL.?.dynLib, *const fn () callconv(.C) u64, "?nativeCall@@YAPEA_KXZ");
@@ -145,7 +144,7 @@ pub fn getGlobalPtr(globalId: c_int) [*c]u64 {
 /// return value represents filled array elements count
 /// can be called only in the same thread as natives
 pub fn worldGetAllVehicles(arr: [*c]c_int, arrSize: c_int) c_int {
-    const sym = utils.findSymbol(root.ScriptHookVDLL.?.dynLib, *const fn([*c]c_int, c_int) callconv(.C) c_int, "?worldGetAllVehicles@@YAHPEAHH@Z");
+    const sym = utils.findSymbol(root.ScriptHookVDLL.?.dynLib, *const fn ([*c]c_int, c_int) callconv(.C) c_int, "?worldGetAllVehicles@@YAHPEAHH@Z");
     return sym.?(arr, arrSize);
 }
 
@@ -153,7 +152,7 @@ pub fn worldGetAllVehicles(arr: [*c]c_int, arrSize: c_int) c_int {
 /// return value represents filled array elements count
 /// can be called only in the same thread as natives
 pub fn worldGetAllPeds(arr: [*c]c_int, arrSize: c_int) c_int {
-    const sym = utils.findSymbol(root.ScriptHookVDLL.?.dynLib, *const fn([*c]c_int, c_int) callconv(.C) c_int, "?worldGetAllPeds@@YAHPEAHH@Z");
+    const sym = utils.findSymbol(root.ScriptHookVDLL.?.dynLib, *const fn ([*c]c_int, c_int) callconv(.C) c_int, "?worldGetAllPeds@@YAHPEAHH@Z");
     return sym.?(arr, arrSize);
 }
 
@@ -161,7 +160,7 @@ pub fn worldGetAllPeds(arr: [*c]c_int, arrSize: c_int) c_int {
 /// return value represents filled array elements count
 /// can be called only in the same thread as natives
 pub fn worldGetAllObjects(arr: [*c]c_int, arrSize: c_int) c_int {
-    const sym = utils.findSymbol(root.ScriptHookVDLL.?.dynLib, *const fn([*c]c_int, c_int) callconv(.C) c_int, "?worldGetAllObjects@@YAHPEAHH@Z");
+    const sym = utils.findSymbol(root.ScriptHookVDLL.?.dynLib, *const fn ([*c]c_int, c_int) callconv(.C) c_int, "?worldGetAllObjects@@YAHPEAHH@Z");
     return sym.?(arr, arrSize);
 }
 
@@ -169,7 +168,7 @@ pub fn worldGetAllObjects(arr: [*c]c_int, arrSize: c_int) c_int {
 /// return value represents filled array elements count
 /// can be called only in the same thread as natives
 pub fn worldGetAllPickups(arr: [*c]c_int, arrSize: c_int) c_int {
-    const sym = utils.findSymbol(root.ScriptHookVDLL.?.dynLib, *const fn([*c]c_int, c_int) callconv(.C) c_int, "?worldGetAllPickups@@YAHPEAHH@Z");
+    const sym = utils.findSymbol(root.ScriptHookVDLL.?.dynLib, *const fn ([*c]c_int, c_int) callconv(.C) c_int, "?worldGetAllPickups@@YAHPEAHH@Z");
     return sym.?(arr, arrSize);
 }
 
