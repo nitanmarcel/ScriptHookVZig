@@ -19,6 +19,8 @@ pub const DLL_PROCESS_DETACH: std.os.windows.DWORD = 4;
 
 comptime {
 
+
+    @compileError("COMPILE ERROR");
     // allow overriding dllmain
     if (!@hasDecl(root, "DllMain")) {
 
@@ -47,7 +49,7 @@ pub export fn DllMain(hInstance: std.os.windows.HINSTANCE, reason: std.os.window
     switch (reason) {
         DLL_PROCESS_ATTACH => {
             //if (@hasDecl(root, "onLoad")) {
-                root.onLoadA(hInstance);
+                root.onLoad(hInstance);
             //}
         },
         DLL_PROCESS_DETACH => {

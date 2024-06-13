@@ -80,7 +80,7 @@ pub fn scriptWait(ms: std.os.windows.DWORD) void {
 }
 
 pub fn scriptRegister(instance: std.os.windows.HINSTANCE, LP_SCRIPT_MAIN: *const fn () callconv(.C) void) void {
-    const sym = utils.findSymbol(*const fn (std.os.windows.HINSTANCE, *const fn () callconv(.C) void) callconv(.C) void, "?scriptRegister@@YAXPEAUHINSTANCE__@@P6AXXZ@Z");
+    const sym = utils.findSymbol("NOT VALID", *const fn (std.os.windows.HINSTANCE, *const fn () callconv(.C) void) callconv(.C) void, "?scriptRegister@@YAXPEAUHINSTANCE__@@P6AXXZ@Z");
     sym.?(instance, LP_SCRIPT_MAIN);
 }
 
