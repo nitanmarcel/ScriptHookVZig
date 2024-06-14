@@ -3,17 +3,17 @@ const root = @import("root.zig");
 const utils = @import("utils.zig");
 
 fn nativeCall() u64 {
-    const call = utils.findSymbol(&root.ScriptHookVDLL.?.dynLib, *const fn () callconv(.C) u64, "?nativeCall@@YAPEA_KXZ");
+    const call = utils.findSymbol(*const fn () callconv(.C) u64, "?nativeCall@@YAPEA_KXZ");
     return call.?();
 }
 
 fn nativeInit(hash: u64) void {
-    const call = utils.findSymbol(&root.ScriptHookVDLL.?.dynLib, *const fn (u64) callconv(.C) void, "?nativeInit@@YAX_K@Z");
+    const call = utils.findSymbol(*const fn (u64) callconv(.C) void, "?nativeInit@@YAX_K@Z");
     call.?(hash);
 }
 
 fn nativePush64(val: u64) void {
-    const call = utils.findSymbol(&root.ScriptHookVDLL.?.dynLib, *const fn (u64) callconv(.C) void, "?nativePush64@@YAX_K@Z");
+    const call = utils.findSymbol(*const fn (u64) callconv(.C) void, "?nativePush64@@YAX_K@Z");
     call.?(val);
 }
 

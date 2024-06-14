@@ -5,12 +5,12 @@ const ScriptHookVDLLStruct = struct {
     dynLib: std.DynLib,
 };
 
-pub var ScriptHookVDLL: ?ScriptHookVDLLStruct = null;
+var ScriptHookVDLL: std.DynLib = undefined;
 
 pub fn init() !void {
-    ScriptHookVDLL = .{ .dynLib = try std.DynLib.open("ScriptHookV.dll") };
+    ScriptHookVDLL = try std.DynLib.open("ScriptHookV.dll");
 }
 
 pub fn deInit() void {
-    ScriptHookVDLL.?.dynLib.close();
+    ScriptHookVDLL.close();
 }
