@@ -1,8 +1,5 @@
 const std = @import("std");
-
 const shvz = @import("shvz");
-
-const logz = @import("logz");
 
 // Script entry point
 pub export fn scriptMain() void {
@@ -41,20 +38,9 @@ pub export fn DllMain(hInstance: std.os.windows.HINSTANCE, reason: std.os.window
 
     switch (reason) {
         DLL_PROCESS_ATTACH => {
-            // Init logger
-            initLoggerThread();
-
-            // Setup loggers
-            shvz.Logger.setLogger(.{
-                .logDebug = &debug,
-                .logError = &err,
-                .logInfo = &info,
-                .logWarn = &warn,
-            });
-
-            // shvz.init(zhvs.Config) REQUIRED
+            // shvz.init() REQUIRED
             // It handles opening the ScriptHookV.dll library and read symbols from it
-            shvz.init() catch |e| { shvz.Logger.err(e); };
+            shvz.init() catch {};
             // register the script's entry point
             shvz.main.scriptRegister(hInstance, scriptMain);
         },
@@ -70,47 +56,4 @@ pub export fn DllMain(hInstance: std.os.windows.HINSTANCE, reason: std.os.window
     }
 
     return std.os.windows.TRUE;
-}
-
-// Logger implementation using https://github.com/karlseguin/log.zig
-const allocator = std.heap.page_allocator;
-
-pub fn _initLogger() !void {
-    try logz.setup(allocator, .{
-        .level = .Debug,
-        .pool_size = 100,
-        .buffer_size = 4096,
-        .large_buffer_count = 8,
-        .large_buffer_size = 16384,
-        .output = .{ .file = "ScriptHookVZigExample.log" },
-        .encoding = .logfmt,
-    });
-
-    shvz.Logger.info("Hello World", .{});
-}
-
-// Since the logger writes to a file, we need to initialize it in another thread
-// Otherwise the ASI loader will fail to load our module.
-pub fn initLoggerThread() void {
-    if (std.Thread.spawn(.{}, _initLogger, .{})) |t| {
-        t.detach();
-    } else |_| {}
-}
-
-// Logging methods
-
-fn info(message: []u8) void {
-    logz.info().string("example", message).log();
-}
-
-fn debug(message: []u8) void {
-    logz.debug().string("example", message).log();
-}
-
-fn err(e: anyerror) void {
-    logz.err().err(e).log();
-}
-
-fn warn(message: []u8) void {
-    logz.warn().string("exampple", message).log();
 }

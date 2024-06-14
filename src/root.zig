@@ -1,5 +1,4 @@
 const std = @import("std");
-const logger = @import("logger.zig");
 
 const ScriptHookVDLLStruct = struct {
     dynLib: std.DynLib,

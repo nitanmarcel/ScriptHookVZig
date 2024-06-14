@@ -7,8 +7,6 @@ Develop GTA V mods with the help of Zig
     - [Adding to build.zig.zon](#adding-to-buildzigzon)
     - [Adding to build.zig](#adding-to-buildzig)
     - [Your first script](#your-first-script)
-  - [Logging](#logging)
-    - [Setting up logging](#setting-up-logging)
   - [Documentation](#documentation)
   - [Thanks](#thanks)
   - [LICENSE](#license)
@@ -73,11 +71,9 @@ pub fn DllMain(hInstance: std.os.windows.HINSTANCE, reason: std.os.windows.DWORD
 
     switch (reason) {
         DLL_PROCESS_ATTACH => {
-            // Setup logging. See logging section of this README
-            shvz.Logger.setLogger(..);
             // shvz.init() REQUIRED
             // It handles opening the ScriptHookV.dll library and read symbols from it
-            shvz.init() catch |e| { shvz.Logger.err(e); };
+            shvz.init() catch |e| { };
             // register the script's entry point
             shvz.main.scriptRegister(hInstance, scriptMain);
         },
@@ -94,35 +90,6 @@ pub fn DllMain(hInstance: std.os.windows.HINSTANCE, reason: std.os.windows.DWORD
 
     return std.os.windows.TRUE;
 }
-```
-
-## Logging
-
-By default, no logs will be written anywhere, except error logs on the stderr. It's up to the developer to come with it's own implementation.
-
-The developer can make a call to `shvz.Logger.setLogger` to assign their own methods.
-I recommend using [log.zig](https://github.com/karlseguin/log.zig) since the logging system has been tested with it.
-A note here, not only for logz, but for every logging system, you want to create/open files on a separate thread or the ASI loader might fail to load the library.
-An example of using logz can be found in the example project.
-
-### Setting up logging
-
-```zig
-shvz.Logger.setLogger(.{
-    .logDebug = &debug,
-    .logError = &err,
-    .logInfo = &info,
-    .logWarn = &warn,
-});
-
-fn info(message: []u8) void {}
-
-fn debug(message: []u8) void {}
-
-fn err(e: anyerror) void {}
-
-fn warn(message: []u8) void {}
-
 ```
 
 ## Documentation
