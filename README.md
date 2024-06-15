@@ -41,11 +41,6 @@ zig fetch git+https://github.com/nitanmarcel/ScriptHookVZig#{LastCommitHash} -- 
     // Import is as a module
     lib.root_module.addImport("shvz", shvz_dep.module("shvz"));
 
-    // https://github.com/karlseguin/log.zig
-    // See logging section of this README
-    const logz = b.dependency("logz", .{});
-    lib.root_module.addImport("logz", logz.module("logz"));
-
     // Save the dll
     b.installArtifact(lib);
     // Copy bin/{name}.dll (zig-0.13.0 and above) / lib/{name}.dll (zig-0.12.0) to the GTA root folder where ScriptHookV.dll is located and rename the library extension to .asi: {name}.dll -> {name}.asi
@@ -95,7 +90,7 @@ pub fn DllMain(hInstance: std.os.windows.HINSTANCE, reason: std.os.windows.DWORD
 ## Documentation
 
 - You can find a set of examples (C) and a readme in the [ScriptHookV SDK](http://www.dev-c.com/gtav/scripthookv/) archive and help on [gtaforums](https://gtaforums.com).
-- Some natives are documented by the [alloc8or](https://alloc8or.re/gta5/nativedb/).
+- Natives are documented on [Github Pages](https://nitanmarcel.github.io/ScriptHookVZig/#natives.natives)
 - The example project in here only showcases the setup for this respective zig library.
 
 ## Thanks
