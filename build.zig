@@ -7,8 +7,8 @@ pub fn build(b: *std.Build) void {
 
     // Compile a library to allow building docs 
     const natives_lib = b.addSharedLibrary(.{
-        .name = "natives",
-        .root_source_file = b.path("src/natives.zig"),
+        .name = "shvz",
+        .root_source_file = b.path("src/shvz.zig"),
         .target = target,
         .optimize = optimize,
     });

@@ -1,5 +1,4 @@
 const std = @import("std");
-const root = @import("root.zig");
 const utils = @import("utils.zig");
 
 fn nativeCall() u64 {
