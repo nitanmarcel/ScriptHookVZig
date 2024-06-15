@@ -10,16 +10,16 @@ pub export fn scriptMain() void {
     while (true) {
         // Write text on the screen.
         // All of this and more usage examples can be found in the ScriptHookV sdk: http://www.dev-c.com/gtav/scripthookv/
-        shvz.natives.UI.SET_TEXT_FONT(0);
-        shvz.natives.UI.SET_TEXT_SCALE(0.55, 0.55);
-        shvz.natives.UI.SET_TEXT_COLOUR(255, 255, 255, 255);
-        shvz.natives.UI.SET_TEXT_WRAP(0.0, 1.0);
-        shvz.natives.UI.SET_TEXT_CENTRE(std.os.windows.TRUE);
-        shvz.natives.UI.SET_TEXT_DROPSHADOW(0, 0, 0, 0, 0);
-        shvz.natives.UI.SET_TEXT_EDGE(1, 0, 0, 0, 205);
-        shvz.natives.UI._SET_TEXT_ENTRY(&c_text_entry);
-        shvz.natives.UI._ADD_TEXT_COMPONENT_STRING(&c_string);
-        shvz.natives.UI._DRAW_TEXT(0.5, 0.5);
+        shvz.natives.HUD.SET_TEXT_FONT(0);
+        shvz.natives.HUD.SET_TEXT_SCALE(0.55, 0.55);
+        shvz.natives.HUD.SET_TEXT_COLOUR(255, 255, 255, 255);
+        shvz.natives.HUD.SET_TEXT_WRAP(0.0, 1.0);
+        shvz.natives.HUD.SET_TEXT_CENTRE(std.os.windows.TRUE);
+        shvz.natives.HUD.SET_TEXT_DROPSHADOW(0, 0, 0, 0, 0);
+        shvz.natives.HUD.SET_TEXT_EDGE(1, 0, 0, 0, 205);
+        shvz.natives.HUD.BEGIN_TEXT_COMMAND_DISPLAY_TEXT(&c_text_entry);
+        shvz.natives.HUD.ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME(&c_string);
+        shvz.natives.HUD.END_TEXT_COMMAND_DISPLAY_TEXT(0.5, 0.5, 0);
 
         // Wait 0 seconds.
         shvz.main.WAIT(0);
