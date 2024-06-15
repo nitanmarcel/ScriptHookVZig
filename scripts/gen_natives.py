@@ -1,8 +1,10 @@
 import urllib.request
 import json
+import os
 import subprocess
 
 JSON_URL = "https://raw.githubusercontent.com/alloc8or/gta5-nativedb-data/master/natives.json"
+NATIVES_PATH = os.path.join(os.path.dirname(__file__), "../src/natives.zig")
 
 TYPE_MAPPINGS = {
     "bool": "bool",
@@ -104,6 +106,7 @@ def convert_return_type(type):
 def write_comment(io, comment):
     if comment:
         io.write(f"\t/// {comment}\n")
+        io.write("\t///\n")
 
 def write_struct_start(io, name):
     io.write(f"pub const {name} = struct {{\n")
@@ -131,7 +134,7 @@ def write_func(io, hash, comments, name, aliases, params, return_type):
 
 with urllib.request.urlopen(JSON_URL) as response:
     natives = json.load(response)
-    with open("../src/natives.zig", "w") as out_file:
+    with open(NATIVES_PATH, "w") as out_file:
         out_file.write('const std = @import("std");\n')
         out_file.write('const nativeCaller = @import("nativeCaller.zig");\n')
         out_file.write('const types = @import("types.zig");\n')
@@ -148,4 +151,4 @@ with urllib.request.urlopen(JSON_URL) as response:
                 write_func(out_file, hash, comments, name, old_names, params, return_type)
             write_struct_end(out_file)
 
-    subprocess.run(["zig", "fmt", "src/natives.zig"])
+    subprocess.run(["zig", "fmt", NATIVES_PATH])
